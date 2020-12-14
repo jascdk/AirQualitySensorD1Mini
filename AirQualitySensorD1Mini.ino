@@ -154,8 +154,8 @@ void setup()
   OLED.setCursor(0, 0);
   OLED.println("www.superhouse.tv/aqs");
   OLED.println(" Particulate Matter");
-  OLED.print(" Sensor v"); OLED.println(VERSION);
-  OLED.print  (" Device id: ");
+  OLED.print(" Sensor V. "); OLED.println(VERSION);
+  OLED.print  (" Device ID: ");
   OLED.println(g_device_id, HEX);
   OLED.display();
 
@@ -199,14 +199,10 @@ void setup()
   Serial.println("Connecting to WiFi");
   if (initWifi())
   {
-    OLED.println("WiFi [CONNECTED]");
     Serial.println("WiFi connected");
   } else {
-    OLED.println("WiFi [FAILED]");
     Serial.println("WiFi FAILED");
   }
-  OLED.display();
-  delay(100);
 
   pinMode(MODE_BUTTON_PIN, INPUT_PULLUP); // Pin for screen mode button
 
@@ -227,8 +223,9 @@ void loop()
     {
       reconnectMqtt();
     }
+    client.loop();  // Process any outstanding MQTT messages
   }
-  client.loop();  // Process any outstanding MQTT messages
+
 
   checkModeButton();
   updatePmsReadings();
@@ -257,10 +254,10 @@ void checkModeButton()
     if (g_display_state >= NUM_OF_STATES)
     {
       g_display_state = 1;
-      return;
+    
     } else {
       g_display_state++;
-      return;
+   
     }
   }
 
